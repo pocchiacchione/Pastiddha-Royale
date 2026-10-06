@@ -10,5 +10,13 @@ const vault=(()=>{const te=new TextEncoder(),dec=new TextDecoder();
 const prof=()=>db.collection("users").doc(uid);
 async function loadProfile(){try{const s=await prof().get();S.profile=s.exists?s.data():null}catch(e){S.profile=null}}
 async function saveProfile(){const n=document.getElementById("un").value.trim().slice(0,30);if(!n){alert("Inserisci un nome utente");return}
- await prof().set({username:n});S.profile={username:n};S.view="menu";draw()}
+ const b=document.querySelector("#app button");if(b)b.disabled=true;
+ try{
+  // set() può restare appeso senza errore se il database Firestore non esiste / è offline: timeout di 8s
+  await Promise.race([prof().set({username:n}),new Promise((_,j)=>setTimeout(()=>j({code:"timeout",message:"nessuna risposta da Firestore"}),8000))]);
+  S.profile={username:n};S.view="menu";draw()
+ }catch(e){
+  if(b)b.disabled=false;
+  alert("Salvataggio profilo non riuscito: "+(e.code||e.message)+"\n\nControlla in Firebase Console: 1) Firestore Database creato, 2) regole pubblicate (firestore.rules), 3) dominio autorizzato in Authentication > Settings.")
+ }}
 async function logout(){await vault.set("g4-room",null);leave();S.view="login";draw()} // cambia nome (l'utente Firebase resta lo stesso)
