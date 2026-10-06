@@ -16,7 +16,7 @@ async function saveProfile(){const n=document.getElementById("un").value.trim().
  catch(e){if(b)b.disabled=false;alert("Salvataggio profilo non riuscito: "+(e.code||e.message)+"\n\nControlla in Firebase Console: 1) Firestore Database creato, 2) regole pubblicate (firestore.rules).")}}
 async function googleLogin(){
  const a=firebase.auth(),pr=new firebase.auth.GoogleAuthProvider();S.msg="Accesso in corso…";draw();
- try{const r=await a.signInWithPopup(pr);S.msg="";await start(r.user)}
+ try{const r=await a.signInWithPopup(pr);S.msg="";await bootUser(r.user)}
  catch(e){
   if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){try{await a.signInWithRedirect(pr);return}catch(e2){e=e2}}
   S.msg=(e.code==="auth/popup-closed-by-user"||e.code==="auth/cancelled-popup-request")?"":"Accesso Google non riuscito: "+(e.code||e.message);draw()}}
