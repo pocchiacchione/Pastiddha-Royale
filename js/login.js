@@ -1,0 +1,14 @@
+// Profilo (login Firebase anonimo, vedi main.js) + cifratura locale AES-GCM
+const $=document.getElementById("app");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let db,uid;
+const vault=(()=>{const te=new TextEncoder(),dec=new TextDecoder();
+ const key=async()=>{const m=await crypto.subtle.importKey("raw",te.encode(uid),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:te.encode("g4"),iterations:100000,hash:"SHA-256"},m,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])};
+ const b=u=>btoa(String.fromCharCode(...u)),ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+ return{async set(k,v){try{if(v==null)return localStorage.removeItem(k);const iv=crypto.getRandomValues(new Uint8Array(12));const c=await crypto.subtle.encrypt({name:"AES-GCM",iv},await key(),te.encode(JSON.stringify(v)));localStorage.setItem(k,b(iv)+"."+b(new Uint8Array(c)))}catch(e){}},
+ async get(k){try{const[i,c]=localStorage.getItem(k).split(".");return JSON.parse(dec.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:ub(i)},await key(),ub(c))))}catch(e){return null}}}})();
+const prof=()=>db.collection("users").doc(uid);
+async function loadProfile(){try{const s=await prof().get();S.profile=s.exists?s.data():null}catch(e){S.profile=null}}
+async function saveProfile(){const n=document.getElementById("un").value.trim().slice(0,30);if(!n){alert("Inserisci un nome utente");return}
+ await prof().set({username:n});S.profile={username:n};S.view="menu";draw()}
+async function logout(){await vault.set("g4-room",null);leave();S.view="login";draw()} // cambia nome (l'utente Firebase resta lo stesso)

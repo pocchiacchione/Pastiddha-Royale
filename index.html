@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Griglia 4x4 – Conquista</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1d1d1b;--card:#fff;--ac:#8a5a14;--mut:#777;--bd:#d8d2c4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#17181b;--fg:#ece9e1;--card:#23252a;--ac:#e2b155;--mut:#9a9a9a;--bd:#3a3d44}}
+:root[data-theme=dark]{--bg:#17181b;--fg:#ece9e1;--card:#23252a;--ac:#e2b155;--mut:#9a9a9a;--bd:#3a3d44}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,sans-serif}
+main{max-width:1400px;margin:0 auto;padding:14px}
+h1{font-size:22px;margin:6px 0 12px}h2{font-size:17px;margin:14px 0 6px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
+button,input,select{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--fg);max-width:100%}
+button{background:var(--ac);color:#fff;border:0;cursor:pointer}button.g{background:var(--card);color:var(--fg);border:1px solid var(--bd)}
+button:disabled{opacity:.5}
+input,select{width:100%;box-sizing:border-box;margin:4px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}
+.bar{display:flex;justify-content:space-between;gap:6px;font-size:14px;flex-wrap:wrap}
+.grid{display:grid;gap:1px;margin:10px 0;overflow:auto;max-height:82vh;justify-content:start;cursor:grab;user-select:none;-webkit-user-select:none;overscroll-behavior:contain}.bn{background-color:#f4f7fa}.bt{background-color:#b8c7b4}.bd{background-color:#e6c75a}.ba{background-color:#c9b84e}.bp{background-color:#9cc46a}.bf{background-color:#3f7d44}.bm{background-color:#a09580}.w{background:#0a2342;aspect-ratio:1}
+.t{aspect-ratio:1;border-radius:3px;border:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;line-height:1;text-align:center;overflow:hidden;cursor:pointer;background:#8fb573;color:#1d1d1b;padding:0}
+.t b{color:#c0392b}.t.sel{outline:3px solid var(--ac)}.m{color:var(--mut);font-size:13px}
+.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
+.modal>div{background:var(--card);border-radius:14px;padding:16px;width:100%;max-width:420px;max-height:90%;overflow:auto}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 12px;margin:0 0 8px}
+.st{display:flex;flex-direction:column;line-height:1.1}.st small{font-size:11px;color:var(--mut)}.st b{font-size:22px}
+.top .sm{font-size:13px;color:var(--mut)}.top .inb{margin-left:auto;padding:8px 12px}
+@keyframes pl{50%{opacity:.5}}.pulse{animation:pl 1.2s infinite}@media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+.bot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:10px;align-items:center;background:var(--card);border-top:1px solid var(--bd);padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px))}
+.bot span{flex:1;min-width:0;font-size:13px}.bot button{flex:none}
+.col{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.row>input{min-width:0}
+.tl{display:flex;flex-wrap:wrap;gap:6px;max-height:110px;overflow:auto;margin:4px 0}
+.tl label{display:inline-flex;gap:4px;align-items:center;padding:4px 8px;border:1px solid var(--bd);border-radius:8px;font-size:13px}
+.tl input{width:auto;margin:0;padding:0}
+</style></head><body><main id="app"><p class="m">Caricamento…</p></main>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/login.js"></script>
+<script src="js/core.js"></script>
+<script src="js/econ.js"></script>
+<script src="js/army.js"></script>
+<script src="js/trade.js"></script>
+<script src="js/confed.js"></script>
+<script src="js/diplo.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body></html>
